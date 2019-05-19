@@ -2,7 +2,6 @@ package com.acme.banking.dbo.spring.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -15,7 +14,6 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-@Profile("integration-test")
 public class SwaggerConfig {
     @Bean
     public Docket api() {
@@ -33,7 +31,7 @@ public class SwaggerConfig {
                 "Some custom description of API.",
                 "API TOS",
                 "Terms of service",
-                new Contact("John Doe", "www.example.com", "myeaddress@company.com"),
+                new Contact("Eugene Krivosheyev", "www.acme.com", "ekr@bk.ru"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }
