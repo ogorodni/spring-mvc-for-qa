@@ -49,6 +49,6 @@
     <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
     <beans:bean id="logger" scope="prototype" class="org.slf4j.LoggerFactory" factory-method="getLogger">
-        <beans:constructor-arg name="name" value="logger" />
+        <beans:constructor-arg name="name" value="log" />
     </beans:bean>
 </beans:beans>

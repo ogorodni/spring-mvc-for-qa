@@ -17,7 +17,13 @@ public class TransferService {
         this.accounts = accounts;
     }
 
-    /** TODO Semantics for @Transactional, @PreAuthorize + @Secured/@RolesAllowed, @Retryable/@Recover, @Async, @Cacheable + @CacheEvict/@CachePut */
+    /** TODO Semantics for:
+     *  - @Transactional,
+     *  - @PreAuthorize + @Secured/@RolesAllowed,
+     *  - @Retryable/@Recover,
+     *  - @Async,
+     *  - @Cacheable + @CacheEvict/@CachePut
+     */
     @Transactional
     public void transfer(long fromId, long toId, double amount) {
         Account from = accounts.findById(fromId).orElseThrow(() -> new IllegalStateException("Account not found"));

@@ -2,6 +2,7 @@ package com.acme.banking.dbo.spring.it;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,14 +21,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AccountIT {
     @Autowired private MockMvc mockMvc;
     @LocalServerPort int port;
+    @Autowired Logger logger;
 
     @Test
     public void shouldGetPrePopulatedAccount() throws Exception {
-        System.out.println(">>>>>" +
-        mockMvc.perform(get("/api/accounts"))
-                .andExpect(status().is2xxSuccessful())
-                .andReturn().getResponse()
-                    .getContentAsString()
+        logger.debug(">>>>>" +
+            mockMvc.perform(get("/api/accounts").header("X-API-VERSION", "1"))
+                    .andExpect(status().is2xxSuccessful())
+                    .andReturn().getResponse()
+                        .getContentAsString()
         );
     }
 }
