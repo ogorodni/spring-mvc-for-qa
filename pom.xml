@@ -116,6 +116,7 @@
 					</additionalClasspathElements>
 					<includes>
 						<include>**/*IT.java</include>
+						<include>**/*ST.java</include>
 					</includes>
 				</configuration>
 				<executions>
@@ -172,6 +173,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>2.1.4.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.4.0</version>
 			<scope>test</scope>
 		</dependency>
 

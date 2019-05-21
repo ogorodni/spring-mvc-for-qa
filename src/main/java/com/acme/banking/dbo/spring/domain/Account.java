@@ -1,6 +1,6 @@
 package com.acme.banking.dbo.spring.domain;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,10 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+@ApiModel(subTypes = {SavingAccount.class, CheckingAccount.class})
 @Entity //TODO JPA Entity semantics
 @Inheritance @DiscriminatorColumn(name="ACCOUNT_TYPE")
 @JsonPropertyOrder({ "id", "type", "email", "amount" }) //TODO Jackson annotations semantics: https://www.baeldung.com/jackson-annotations & https://github.com/FasterXML/jackson-annotations
-@ApiModel(subTypes = {SavingAccount.class, CheckingAccount.class})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = SavingAccount.class, name = "S"),
+    @JsonSubTypes.Type(value = CheckingAccount.class, name = "C")
+})
 public abstract class Account {
     /** TODO Validation Framework */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
@@ -39,6 +44,7 @@ public abstract class Account {
     }
 
     @ApiModelProperty(allowableValues = "S,C")
+    @JsonIgnore
     public abstract String getType();
 
     /** TODO Mutable state */
@@ -47,7 +53,28 @@ public abstract class Account {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+
+        Account account = (Account) o;
+
+        if (Double.compare(account.getAmount(), getAmount()) != 0) return false;
+        return getEmail().equals(account.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        long temp;
+        result = 31 * result + getEmail().hashCode();
+        temp = Double.doubleToLongBits(getAmount());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
     public String toString() {
-        return getId() + " " + getAmount();
+        return getType() + " " + getEmail() + " " + getAmount();
     }
 }

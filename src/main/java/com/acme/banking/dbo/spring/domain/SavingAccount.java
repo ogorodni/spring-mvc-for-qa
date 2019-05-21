@@ -22,9 +22,4 @@ public class SavingAccount extends Account {
     public String getType() {
         return "S";
     }
-
-    @Override
-    public String toString() {
-        return super.toString() + " S";
-    }
 }

@@ -31,7 +31,22 @@ public class CheckingAccount extends Account {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) return false;
+
+        CheckingAccount that = (CheckingAccount) o;
+
+        return Double.compare(that.getOverdraft(), getOverdraft()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(getOverdraft());
+        return (int) (temp ^ (temp >>> 32));
+    }
+
+    @Override
     public String toString() {
-        return super.toString() + " C " + overdraft;
+        return super.toString() + " " + overdraft;
     }
 }
