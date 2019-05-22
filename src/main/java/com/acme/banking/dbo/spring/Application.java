@@ -9,6 +9,10 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * How to Run:
+ * java -jar target/dbo-1.0-SNAPSHOT.jar -Dfile.encoding=Cp866
+ */
 @SpringBootApplication
 @ImportResource("classpath:spring-context.xml")
 public class Application {
