@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
 
@@ -59,6 +60,7 @@ public class AccountController {
     public ResponseEntity<?> deleteAccount(@PathVariable @PositiveOrZero(message = "No negative id!") long id) {
         try {
             accounts.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -66,6 +68,10 @@ public class AccountController {
                     e
             );
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/accounts", headers = "X-API-VERSION=1")
+    public void createAccount(@RequestBody @Valid Account account) {
+        accounts.save(account);
     }
 }

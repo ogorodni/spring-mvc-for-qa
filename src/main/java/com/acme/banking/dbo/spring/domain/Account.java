@@ -5,8 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @ApiModel(subTypes = {SavingAccount.class, CheckingAccount.class})
 @Entity //TODO JPA Entity semantics
@@ -19,7 +18,7 @@ import javax.validation.constraints.Size;
 })
 public abstract class Account {
     /** TODO Validation Framework */
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @PositiveOrZero private long id;
     @Email @Size(max = 50) private String email;
     private double amount;
 
