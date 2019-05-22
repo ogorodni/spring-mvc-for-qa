@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -52,5 +53,19 @@ public class AccountController {
                     HttpStatus.NOT_FOUND,
                     "Account not found id: " + id
                 ));
+    }
+
+    @DeleteMapping(path = "/accounts/{id}", headers = "X-API-VERSION=1")
+    public ResponseEntity<?> deleteAccount(@PathVariable @PositiveOrZero(message = "No negative id!") long id) {
+        try {
+            accounts.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Account not found id: " + id,
+                    e
+            );
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
