@@ -11,10 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * How to Run:
- * java -jar target/dbo-1.0-SNAPSHOT.jar -Dfile.encoding=Cp866
+ * > java -jar target/dbo-1.0-SNAPSHOT.jar -Dfile.encoding=Cp866
+ * or
+ * > mvn clean spring-boot:run
  */
 @SpringBootApplication
-@ImportResource("classpath:spring-context.xml")
+@ImportResource("classpath:spring-config.xml")
 public class Application {
     public static void main(String... args) {
         SpringApplication.run(Application.class, args);
@@ -31,13 +33,13 @@ public class Application {
         return new RestTemplate(factory);
     }
 
-    //TODO Semantics of singleton
-    private final ObjectMapper objectMapper = new ObjectMapper(); {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    }
     /** For customisation and reuse of all ObjectMappers within application */
+    //TODO Semantics of singleton
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Bean
     public ObjectMapper getObjectMapper() {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         return objectMapper;
     }
 }

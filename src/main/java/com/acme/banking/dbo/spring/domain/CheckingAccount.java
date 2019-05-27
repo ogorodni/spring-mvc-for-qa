@@ -35,7 +35,6 @@ public class CheckingAccount extends Account {
         if (!super.equals(o)) return false;
 
         CheckingAccount that = (CheckingAccount) o;
-
         return Double.compare(that.getOverdraft(), getOverdraft()) == 0;
     }
 

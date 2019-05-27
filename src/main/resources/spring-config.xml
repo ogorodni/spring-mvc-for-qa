@@ -12,11 +12,12 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="com.acme.banking.dbo.spring"/>
     <context:annotation-config/>
+    <context:component-scan base-package="com.acme.banking.dbo.spring"/>
+
+    <tx:annotation-driven/>
 
     <jpa:repositories base-package="com.acme.banking.dbo.spring.dao"/>
-    <tx:annotation-driven/>
 
     <!-- TODO Spring Boot for Spring auto-configurated context with modules -->
     <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

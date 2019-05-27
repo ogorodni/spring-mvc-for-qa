@@ -27,6 +27,7 @@ public class ReportingService {
     /** TODO @Autowired VS @Inject VS @Resource */
     @Resource private AccountRepository accounts;
 
+    //TODO Setter injection
     public void setLayoutMarker(String layoutMarker) {
         this.layoutMarker = layoutMarker;
     }
