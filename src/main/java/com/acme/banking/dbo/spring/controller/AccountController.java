@@ -71,7 +71,7 @@ public class AccountController {
     }
 
     @PostMapping(path = "/accounts", headers = "X-API-VERSION=1")
-    public void createAccount(@RequestBody @Valid Account account) {
-        accounts.save(account);
+    public Account createAccount(@RequestBody @Valid Account account) {
+        return accounts.save(account);
     }
 }
