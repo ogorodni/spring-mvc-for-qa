@@ -90,8 +90,3 @@ _Рассмотрим разработку REST- и WEB-приложений н�
 ### Practice Iteration 4
 - Разработка своего микро-сервисного приложения "с нуля" каждой командой
 - Интеграция микро-сервисов команд в единое приложение
-
-# Reading List
-- [Spring and JMX](https://www.logicbig.com/tutorials/spring-framework/spring-integration/annotation-based-spring-jmx-integration.html)
-- [JMX and Spring](https://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/jmx.html)
-
