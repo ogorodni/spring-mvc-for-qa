@@ -5,6 +5,7 @@ import com.acme.banking.dbo.spring.domain.CheckingAccount;
 import com.acme.banking.dbo.spring.domain.SavingAccount;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) //TODO @LocalServerPort if RANDOM_PORT
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application.properties")
+@Ignore
 public class AccountControllerHeavyST {
     @Value("${server.port}") private int port;
     @Autowired private Logger logger;

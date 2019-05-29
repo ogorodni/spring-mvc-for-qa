@@ -1,6 +1,7 @@
 package com.acme.banking.dbo.spring.it;
 
 import com.acme.banking.dbo.spring.service.AccountCheckService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @RunWith(SpringRunner.class)
 @RestClientTest(value = AccountCheckService.class)
 @ActiveProfiles("integrationTest")
+@Ignore
 public class DemoRestClientIT {
     @Autowired AccountCheckService accountCheckService;
     @Autowired private MockRestServiceServer mockServer;
