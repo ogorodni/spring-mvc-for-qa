@@ -1,7 +1,6 @@
 package com.acme.banking.dbo.spring.controller;
 
-import com.acme.banking.dbo.spring.dao.AccountRepository;
-import com.acme.banking.dbo.spring.domain.Account;
+import com.acme.banking.dbo.spring.dao.CustomerRepository;
 import com.acme.banking.dbo.spring.domain.Customer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
@@ -31,6 +30,10 @@ import java.util.List;
 @Api(value = "Customers", description = "Operations on Customers of DBO")
 public class CustomerController {
     //    @Autowired private ObjectMapper objectMapper;
+    @Resource
+    private CustomerRepository customers;
+    @Autowired
+    private ObjectMapper objectMapper;
     @Autowired
     private Logger logger;
 
@@ -43,15 +46,16 @@ public class CustomerController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     }
     )
-    public ArrayList<Customer> getAllCustomers() {
+    public Collection<Customer> getAllCustomers() {
+        return customers.findAll();
 
-        Customer customer1 = new Customer("Customer1");
-        Customer customer2 = new Customer("Customer2");
-        ArrayList<Customer> customerList = new ArrayList<Customer>();
-        customerList.add(customer1);
-        customerList.add(customer2);
-//        Collection<Customer> customerList = new Collection<Customer>() {
-        return customerList;
+//        Customer customer1 = new Customer("Customer1");
+//        Customer customer2 = new Customer("Customer2");
+//        ArrayList<Customer> customerList = new ArrayList<Customer>();
+//        customerList.add(customer1);
+//        customerList.add(customer2);
+////        Collection<Customer> customerList = new Collection<Customer>() {
+//        return customerList;
     }
 
     /**
@@ -59,16 +63,32 @@ public class CustomerController {
      */
     @GetMapping(path = "/customers/{id}", headers = "X-API-VERSION=1")
     public ResponseEntity<Customer> getCustomer(@PathVariable @PositiveOrZero(message = "No negative id!") long id) {
-        return new ResponseEntity<>(new Customer("Customer1"), HttpStatus.FOUND);
+        return customers.findById(id)
+                .map(customer -> new ResponseEntity<>(customer, HttpStatus.OK))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Customer not found id: " + id
+                ));
     }
 
     @DeleteMapping(path = "/customers/{id}", headers = "X-API-VERSION=1")
     public ResponseEntity<?> deleteCustomer(@PathVariable @PositiveOrZero(message = "No negative id!") long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            customers.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EmptyResultDataAccessException e) {
+            //TODO https://www.baeldung.com/exception-handling-for-rest-with-spring
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Customer not found id: " + id,
+                    e
+            );
+        }
     }
 
     @PostMapping(path = "/customers", headers = "X-API-VERSION=1")
     public ResponseEntity<Customer> createCustomer(@RequestBody @Valid Customer customer) {
-        return new ResponseEntity<Customer>(new Customer(customer.getName()), HttpStatus.CREATED);
+        return new ResponseEntity<Customer>(customers.save(customer), HttpStatus.OK);
     }
 }
+

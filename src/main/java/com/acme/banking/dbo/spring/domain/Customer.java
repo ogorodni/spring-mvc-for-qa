@@ -8,6 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 //@Entity //TODO JPA Entity semantics
+//@ApiModel(subTypes = {SavingAccount.class, CheckingAccount.class})
+//@Entity //TODO JPA Entity semantics
+//@Inheritance @DiscriminatorColumn(name="ACCOUNT_TYPE")
+//@JsonPropertyOrder({ "id", "type", "email", "amount" }) //TODO Jackson annotations semantics: https://www.baeldung.com/jackson-annotations & https://github.com/FasterXML/jackson-annotations
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = SavingAccount.class, name = "S"),
+//        @JsonSubTypes.Type(value = CheckingAccount.class, name = "C")
+//})
 public class Customer {
     /** TODO Validation Framework */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @PositiveOrZero private long id;
